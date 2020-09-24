@@ -38,6 +38,24 @@ sudo chmod 777 -R storage/
 sudo chmod 777 -R bootstrap/cache/
 ```
 
+## PHP Extention (Belum ditest)
+
+Kalau butuh extention lain, bisa pakai images dari [https://hub.docker.com/r/nanoninja/php-fpm](https://hub.docker.com/r/nanoninja/php-fpm)
+
+### Sebelum
+
+```yml
+php:
+  image: php:7.4-fpm-alpine
+```
+
+### Sesudah
+
+```yml
+php:
+  image: nanoninja/php-fpm:7.4.10
+```
+
 ## Reference
 
 - [http://geekyplatypus.com/dockerise-your-php-application-with-nginx-and-php7-fpm/](https://web.archive.org/web/20200924175739/http://geekyplatypus.com/dockerise-your-php-application-with-nginx-and-php7-fpm/)
