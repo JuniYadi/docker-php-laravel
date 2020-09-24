@@ -29,6 +29,15 @@ Semua file coding harus di simpan di folder `code`
 
 Karena disini pakai laravel, maka bidding directorynya di `code/public`.
 
+## Folder Permission (Development Only)
+
+Kalau ada error di folder storage, kasi aja permission seperti ini :
+
+```bash
+sudo chmod 777 -R storage/
+sudo chmod 777 -R bootstrap/cache/
+```
+
 ## Reference
 
 - [http://geekyplatypus.com/dockerise-your-php-application-with-nginx-and-php7-fpm/](https://web.archive.org/web/20200924175739/http://geekyplatypus.com/dockerise-your-php-application-with-nginx-and-php7-fpm/)
