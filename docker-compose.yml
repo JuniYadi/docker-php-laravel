@@ -4,10 +4,10 @@ services:
   web:
     image: nginx:alpine
     ports:
-      - "8080:80"
+      - "5000:80"
     volumes:
       - ./code:/code:rw,cached
-      - ./nginx/conf.d/app.conf:/etc/nginx/conf.d/app.conf
+      - ./nginx/conf.d/:/etc/nginx/conf.d/
     networks:
       - code-network
 
