@@ -1,0 +1,31 @@
+version: "2"
+
+services:
+  web:
+    image: nginx:alpine
+    ports:
+      - "8080:80"
+    volumes:
+      - ./code:/code:rw,cached
+      - ./nginx/conf.d/app.conf:/etc/nginx/conf.d/app.conf
+    networks:
+      - code-network
+
+  php:
+    image: php:7.4-fpm-alpine
+    volumes:
+      - ./code:/code:rw,cached
+      - ./php/local.ini:/usr/local/etc/php/conf.d/local.ini
+    networks:
+      - code-network
+
+  composer:
+    image: composer:latest
+    working_dir: /code
+    volumes:
+      - ./code:/code
+    command: install
+
+networks:
+  code-network:
+    driver: bridge
