@@ -2,8 +2,6 @@
 
 ## App Detail
 
-### Folder Tree
-
 ```bash
 ├── code
 ├── docker-compose.yml
@@ -18,46 +16,43 @@
 ### Docker Images
 
 - Nginx Alpine
-- PHP 7.4 FPM Alpine
-- Composer
+- MySQL 8
+- PHP 7.4 FPM Alpine With Composer
 
 ## Code
 
-Semua file coding harus di simpan di folder `code`
+All coding files must be saved in the `code` folder
 
 ## Nginx
 
-Karena disini pakai laravel, maka bidding directorynya di `code/public`.
+Because here we use laravel, the directory bidding is in `code/public`.
 
 ## Folder Permission (Development Only)
 
-Kalau ada error di folder storage, kasi aja permission seperti ini :
+If there is an error in the storage folder, just give permission like this:
 
 ```bash
 sudo chmod 777 -R storage/
 sudo chmod 777 -R bootstrap/cache/
 ```
 
-## PHP Extention (Belum ditest)
+## Laravel Setup
 
-Kalau butuh extention lain, bisa pakai images dari [https://hub.docker.com/r/nanoninja/php-fpm](https://hub.docker.com/r/nanoninja/php-fpm)
-
-### Sebelum
-
-```yml
-php:
-  image: php:7.4-fpm-alpine
+```
+docker exec -i php_laravel sh -c "exec php artisan:generate"
 ```
 
-### Sesudah
+### Database & Redis ENV
 
-```yml
-php:
-  image: nanoninja/php-fpm:7.4.10
 ```
+DB_CONNECTION=mysql
+DB_HOST=db_laravel
+DB_PORT=3306
+DB_DATABASE=laravel_dock
+DB_USERNAME=laravel
+DB_PASSWORD=laravel
 
-## Reference
-
-- [http://geekyplatypus.com/dockerise-your-php-application-with-nginx-and-php7-fpm/](https://web.archive.org/web/20200924175739/http://geekyplatypus.com/dockerise-your-php-application-with-nginx-and-php7-fpm/)
-- [http://geekyplatypus.com/making-your-dockerised-php-application-even-better/](https://web.archive.org/web/20200310195111/http://geekyplatypus.com/making-your-dockerised-php-application-even-better/)
-- https://medium.com/@sreejithezhakkad/how-i-set-up-laravel-in-docker-container-f80987559bc6
+REDIS_HOST=redis_laravel
+REDIS_PASSWORD=null
+REDIS_PORT=6379
+```
