@@ -36,7 +36,7 @@ services:
     volumes:
       - ./code:/code:rw,cached
       - ./php/local.ini:/usr/local/etc/php/conf.d/local.ini
-    command: bash -c "composer install --ignore-platform-reqs && php-fpm"
+    command: bash -c "composer install && php-fpm"
     networks:
       - code-network
 
