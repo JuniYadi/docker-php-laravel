@@ -4,33 +4,56 @@ services:
   web:
     image: nginx:alpine
     container_name: webserver_laravel
-    restart: unless-stopped
+    restart: on-failure
     tty: true
     ports:
-      - "5000:80"
+      - "80:80"
     volumes:
       - ./code:/code:rw,cached
       - ./nginx/conf.d/:/etc/nginx/conf.d/
     networks:
       - code-network
+    depends_on:
+      - db
+      - php
+
+  db:
+    image: mysql:8
+    command: --default-authentication-plugin=mysql_native_password
+    container_name: db_laravel
+    restart: on-failure
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./data:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: laravel_docker
+      MYSQL_DATABASE: laravel_dock
+      MYSQL_USER: laravel
+      MYSQL_PASSWORD: laravel
+    networks:
+      - code-network
 
   php:
-    image: php:7.4-fpm-alpine
+    image: juniyadi/php-composer
     container_name: php_laravel
-    restart: unless-stopped
+    restart: on-failure
     tty: true
     volumes:
       - ./code:/code:rw,cached
       - ./php/local.ini:/usr/local/etc/php/conf.d/local.ini
+    command: bash -c "composer install --ignore-platform-reqs && php-fpm"
     networks:
       - code-network
 
-  composer:
-    image: composer:latest
-    working_dir: /code
-    volumes:
-      - ./code:/code
-    command: install
+  redis:
+    image: redis
+    container_name: redis_laravel
+    restart: on-failure
+    ports:
+      - "6379:6379"
+    networks:
+      - code-network
 
 networks:
   code-network:
